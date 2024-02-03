@@ -9,19 +9,24 @@ window.onload = function() {
 
     btn.onclick = () => {
     // we will only allow a term to be entered if the search input isn't empty
-      if (inp.value !== '') {
-              // empty the list so that we don't display duplicate entries
+      if (inp.value !== '' && !myHistory.includes(inp.value) ) {
+        myHistory.unshift(inp.value);
+        // empty the list so that we don't display duplicate entries
               // the display is regenerated every time a search term is entered.
               list.innerHTML = '';
 
+              let myHistoryCopy = Array.from(myHistory);
+              myHistoryCopy.sort((a, b) => a.length - b.length);
               // loop through the sorted array, and display all the search terms in the list
               for (const itemText of myHistoryCopy) {
-                
+                let item = document.createElement("li");
+                item.innerHTML = itemText;
+                list.appendChild(item);
               }
 
               // If the array length is 5 or more, remove the oldest search term
               if (myHistory.length >= MAX_HISTORY) {
-                
+                myHistory.pop();
               }
 
               // empty the search input and focus it, ready for the next term to be entered
